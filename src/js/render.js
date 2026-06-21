@@ -65,7 +65,8 @@ export function renderParkData(park) {
 
   const iframe = document.getElementById("mapFrame");
   if (iframe && park.latitude && park.longitude) {
-    iframe.src = `https://www.google.com/maps?q=${park.latitude},${park.longitude}&output=embed&z=8`;
+    // Defer loading the Google Maps embed until the modal is opened.
+    iframe.dataset.src = `https://www.google.com/maps?q=${park.latitude},${park.longitude}&output=embed&z=8`;
   }
 }
 
@@ -161,7 +162,15 @@ export function setupMapModalAndPromotions() {
   const mapModalClose = document.getElementById("map-modal-close");
   const promotionMessage = document.getElementById("promotion-message");
 
-  const openMapModal = () => mapModal?.classList.remove("is-hidden");
+  const mapFrame = document.getElementById("mapFrame");
+
+  const openMapModal = () => {
+    // Lazy-load the map embed on first open so it doesn't cost a request on page load.
+    if (mapFrame && !mapFrame.src && mapFrame.dataset.src) {
+      mapFrame.src = mapFrame.dataset.src;
+    }
+    mapModal?.classList.remove("is-hidden");
+  };
   const closeMapModal = () => mapModal?.classList.add("is-hidden");
 
   headerMapsLink?.addEventListener("click", openMapModal);

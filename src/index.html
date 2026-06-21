@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Explore US National Parks: view park info, weather, directions, fees, maps, and save your favorite parks."
+    />
     <title>NPS DEMO - WDD 231</title>
+    <link rel="icon" href="data:," />
     <link rel="stylesheet" href="css/style.css" />
     <script type="module" src="js/main.js" defer></script>
   </head>
@@ -48,7 +53,7 @@
         <section id="favorites-section" class="is-hidden"></section>
 
         <section id="hero">
-          <img id="park-image" fetchpriority="high" src="images/us-map.jpg" alt="map of us" />
+          <img id="park-image" fetchpriority="high" width="1181" height="731" src="images/us-map.jpg" alt="map of us" />
         </section>
 
         <section id="overview">
@@ -143,7 +148,7 @@
             </button>
             <iframe
               id="mapFrame"
-              src="https://www.google.com/maps?q=Old+Faithful+Yellowstone+National+Park&output=embed&z=8"
+              title="Map of the selected park"
               width="100%"
               height="420"
               style="border: 0"
