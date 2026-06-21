@@ -4,6 +4,10 @@
   --header-color: #344e41;
   --dark-color: #3a5a40;
   --medium-color: #588157;
+
+  --motion-fast: 0.2s;
+  --motion-medium: 0.35s;
+  --motion-ease: ease;
 }
 
 * {
@@ -306,6 +310,12 @@ nav {
   padding: 0.5rem 1rem 0.9rem;
   border-left: 1px solid black;
   border-right: 1px solid black;
+  position: absolute;
+  top: 120px;
+  width: min(960px, calc(100% - 2rem));
+  opacity: 0.7;
+  z-index: 5;
+  margin: 0 1rem;
 }
 
 #favorites-section a,
@@ -319,8 +329,12 @@ nav {
 }
 
 .favorites-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  list-style: none;
   margin: 0;
-  padding-left: 1rem;
+  padding: 0;
 }
 
 .favorites-list li {
@@ -339,4 +353,170 @@ nav {
 
 .is-hidden {
   display: none !important;
+}
+
+/* ===== Part 8: transitions, animations, and UX fixes ===== */
+
+/* Step 2) Keyframes */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Step 3) Animate park chooser controls */
+#choose-park-btn,
+#choose-park-select {
+  transition:
+    background-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease);
+}
+
+#choose-park-btn:hover,
+#choose-park-btn:focus-visible,
+#choose-park-select:hover,
+#choose-park-select:focus-visible {
+  transform: translateY(-2px);
+}
+
+/* Step 4) Animate header menu trigger + dropdown */
+#header-menu-trigger {
+  transition: transform var(--motion-fast) var(--motion-ease), opacity var(--motion-fast) var(--motion-ease);
+  background-color: transparent;
+  color: inherit;
+  font-size: inherit;
+  padding: .5rem;
+}
+
+#header-menu-trigger:hover,
+#header-menu-trigger:focus-visible {
+  transform: translateY(-2px);
+}
+
+#header-menu-options {
+  overflow: hidden;
+  max-height: 15rem;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    max-height var(--motion-medium) var(--motion-ease),
+    opacity var(--motion-medium) var(--motion-ease),
+    transform var(--motion-medium) var(--motion-ease);
+}
+
+#header-menu-options.is-hidden {
+  display: block !important;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
+/* Step 5) Hover motion for center park menu items */
+#park-menu li {
+  transition:
+    background-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease);
+}
+
+#park-menu li:hover,
+#park-menu li:focus-visible {
+  transform: translateY(-2px);
+}
+
+/* Step 6) Animate modal overlay + content */
+#map-modal {
+  opacity: 1;
+  transition: opacity var(--motion-medium) var(--motion-ease);
+}
+
+#map-modal.is-hidden {
+  display: flex !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#map-modal-content {
+  animation: popIn 0.28s var(--motion-ease);
+}
+
+/* Step 7) Animate park info content */
+#park-info {
+  animation: fadeUp 0.45s var(--motion-ease);
+}
+
+#park-info p,
+#park-info li,
+#park-info span {
+  animation: fadeUp 0.5s var(--motion-ease);
+}
+
+/* Step 8) Animate park fees show/hide */
+#park-fees {
+  overflow: hidden;
+  max-height: 1500px;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    max-height var(--motion-medium) var(--motion-ease),
+    opacity var(--motion-medium) var(--motion-ease),
+    transform var(--motion-medium) var(--motion-ease);
+}
+
+#park-fees.is-hidden {
+  display: block !important;
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+
+/* Step 9) UX Fix: hide center park menu (intentional tech debt) */
+#park-menu {
+  display: none;
+}
+
+/* Step 11) Choose-park UX fix: hide with visibility, not display */
+/* Keep select in layout so button does not jump */
+#choose-park-select {
+  visibility: visible;
+  opacity: 1;
+}
+
+#choose-park-select.is-hidden {
+  display: inline-block !important; /* override global .is-hidden */
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
