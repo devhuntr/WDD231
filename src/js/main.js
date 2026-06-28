@@ -8,6 +8,7 @@ import {
   setActiveSection,
   wireSectionMenus,
   setupMapModalAndPromotions,
+  setupFeedbackModal,
   renderFavorites,
   renderParkSelectorUI,
 } from "./render.js";
@@ -36,6 +37,7 @@ async function init() {
   setActiveSection("info");
   wireSectionMenus();
   setupMapModalAndPromotions();
+  setupFeedbackModal();
 
   const parks = await fetchParkSelectorData();
   renderFavorites(buildParkUrl);

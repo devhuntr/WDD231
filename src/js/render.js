@@ -195,6 +195,80 @@ export function setupMapModalAndPromotions() {
   }
 }
 
+export function setupFeedbackModal() {
+  const feedbackLink = document.getElementById("footer-feedback-link");
+  const modal = document.getElementById("feedback-modal");
+  const closeBtn = document.getElementById("feedback-modal-close");
+  const form = document.getElementById("feedback-form");
+  const formView = document.getElementById("feedback-form-view");
+  const thanksView = document.getElementById("feedback-thanks");
+  const thanksCloseBtn = document.getElementById("feedback-thanks-close");
+  const errorEl = document.getElementById("feedback-error");
+
+  if (!modal) return;
+
+  // Validation patterns.
+  const namePattern = /^[A-Za-z][A-Za-z\s'.-]{1,}$/;
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const openModal = () => {
+    // Always start on the form view when the modal opens.
+    formView?.classList.remove("is-hidden");
+    thanksView?.classList.add("is-hidden");
+    if (errorEl) errorEl.textContent = "";
+    modal.classList.remove("is-hidden");
+    modal.setAttribute("aria-hidden", "false");
+    document.getElementById("feedback-name")?.focus();
+  };
+
+  const closeModal = () => {
+    modal.classList.add("is-hidden");
+    modal.setAttribute("aria-hidden", "true");
+    form?.reset();
+    if (errorEl) errorEl.textContent = "";
+  };
+
+  feedbackLink?.addEventListener("click", (event) => {
+    event.preventDefault();
+    openModal();
+  });
+
+  closeBtn?.addEventListener("click", closeModal);
+  thanksCloseBtn?.addEventListener("click", closeModal);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.classList.contains("is-hidden")) {
+      closeModal();
+    }
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const name = document.getElementById("feedback-name")?.value.trim() ?? "";
+    const email = document.getElementById("feedback-email")?.value.trim() ?? "";
+    const message = document.getElementById("feedback-message")?.value.trim() ?? "";
+
+    if (!namePattern.test(name)) {
+      if (errorEl) errorEl.textContent = "Please enter a valid name (letters only).";
+      return;
+    }
+    if (!emailPattern.test(email)) {
+      if (errorEl) errorEl.textContent = "Please enter a valid e-mail address.";
+      return;
+    }
+    if (message.length === 0) {
+      if (errorEl) errorEl.textContent = "Please enter your feedback.";
+      return;
+    }
+
+    // Valid submission: show the thank-you message.
+    if (errorEl) errorEl.textContent = "";
+    formView?.classList.add("is-hidden");
+    thanksView?.classList.remove("is-hidden");
+  });
+}
+
 export function renderFavorites(buildParkUrl, containerId = "favorites-section") {
   const container = document.getElementById(containerId);
   if (!container) return;

@@ -132,6 +132,109 @@ footer p {
   margin: 0;
 }
 
+#footer-feedback-link {
+  color: var(--dark-color);
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#footer-feedback-link:hover,
+#footer-feedback-link:focus-visible {
+  color: var(--header-color);
+}
+
+/* ===== Feedback modal ===== */
+#feedback-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+#feedback-modal.is-hidden {
+  display: none;
+}
+
+#feedback-modal-content {
+  position: relative;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  width: min(560px, 95vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.25rem;
+}
+
+#feedback-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  border: 1px solid black;
+  background-color: white;
+  cursor: pointer;
+  padding: 0.2rem 0.5rem;
+}
+
+#feedback-modal-title {
+  margin: 0 0 1rem;
+}
+
+#feedback-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#feedback-form label {
+  margin-top: 0.75rem;
+  font-weight: bold;
+}
+
+#feedback-form input,
+#feedback-form textarea {
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  font: inherit;
+  border: 1px solid #9ca59a;
+  border-radius: 4px;
+}
+
+#feedback-form input:focus-visible,
+#feedback-form textarea:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 1px;
+}
+
+.form-error {
+  margin: 0.75rem 0 0;
+  min-height: 1.2em;
+  color: #b00020;
+  font-weight: bold;
+}
+
+.feedback-submit-btn,
+#feedback-thanks-close {
+  margin-top: 1rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  color: white;
+  background-color: var(--header-color);
+  border: 1px solid #1f2f27;
+  border-radius: 6px;
+  padding: 0.55rem 0.9rem;
+}
+
+.feedback-submit-btn:hover,
+#feedback-thanks-close:hover {
+  background-color: #2b4035;
+}
+
 .is-hidden {
   display: none;
 }
@@ -520,4 +623,9 @@ nav {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
+}
+
+/* Animate the feedback modal to match the map modal */
+#feedback-modal-content {
+  animation: popIn 0.28s var(--motion-ease);
 }
